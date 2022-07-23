@@ -1,14 +1,20 @@
 ﻿<Properties StartupConfiguration="{BF0E3CEE-E88E-44E0-80CE-46EDA6CD4B54}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Xamarin.Android/MainActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Samples/AugmentedReality/CollectDataAR/CollectDataAR.cs">
     <Files>
-      <File FileName="Xamarin.Android/MainActivity.cs" Line="1" Column="1" />
+      <File FileName="Samples/AugmentedReality/CollectDataAR/CollectDataAR.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ArcGISRuntime.Xamarin.Samples.Android" expanded="True">
             <Node name="ArcGISRuntime.Xamarin.Samples.Android" expanded="True">
-              <Node name="MainActivity.cs" selected="True" />
+              <Node name="Samples" expanded="True">
+                <Node name="AugmentedReality" expanded="True">
+                  <Node name="CollectDataAR" expanded="True">
+                    <Node name="CollectDataAR.cs" selected="True" />
+                  </Node>
+                </Node>
+              </Node>
             </Node>
           </Node>
         </State>

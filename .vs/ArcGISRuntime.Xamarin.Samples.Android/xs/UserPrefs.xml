@@ -1,13 +1,11 @@
 ﻿<Properties StartupConfiguration="{BF0E3CEE-E88E-44E0-80CE-46EDA6CD4B54}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Xamarin.Android/Samples/AugmentedReality/CollectDataAR/CollectDataAR.cs">
     <Files>
-      <File FileName="Xamarin.Android/MainActivity.cs" Line="71" Column="61" />
       <File FileName="Xamarin.Android/Resources/Resource.Designer.cs" Line="9" Column="26" />
-      <File FileName="Xamarin.Android/Samples/AugmentedReality/CollectDataAR/CollectDataAR.cs" Line="354" Column="1" />
-      <File FileName="Xamarin.Android/Resources/layout/HomeScreen.xml" Line="12" Column="12" />
-      <File FileName="Xamarin.Android/Resources/layout/ShowPopup.xml" Line="28" Column="34" />
+      <File FileName="Xamarin.Android/Samples/AugmentedReality/CollectDataAR/CollectDataAR.cs" Line="386" Column="28" />
+      <File FileName="Xamarin.Android/Resources/layout/ShowPopup.xml" Line="23" Column="14" />
       <File FileName="Xamarin.Android/Samples/FeatureLayerUrl/FeatureLayerUrl.cs" Line="16" Column="1" />
-      <File FileName="Xamarin.Android/Samples/ShowPopup/ShowPopup.cs" Line="167" Column="79" />
+      <File FileName="Xamarin.Android/Samples/ShowPopup/ShowPopup.cs" Line="141" Column="67" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

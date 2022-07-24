@@ -13,6 +13,8 @@ using Android.Widget;
 using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.UI.Controls;
+using System.Threading.Tasks;
+using Esri.ArcGISRuntime.Portal;
 using System;
 
 namespace ArcGISRuntime //.Samples.FeatureLayerUrl
@@ -28,6 +30,7 @@ namespace ArcGISRuntime //.Samples.FeatureLayerUrl
     {
         // Hold a reference to the map view
         private MapView _myMapView;
+        private Map myMap;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -43,7 +46,8 @@ namespace ArcGISRuntime //.Samples.FeatureLayerUrl
         private void Initialize()
         {
             // Create new Map with basemap
-            Map myMap = new Map(BasemapStyle.ArcGISTerrain);
+            //Map = new Map(BasemapStyle.ArcGISTopographic);
+            myMap = new Map(BasemapStyle.ArcGISTopographic);
 
             // Create and set initial map location
             MapPoint initialLocation = new MapPoint(
@@ -55,13 +59,20 @@ namespace ArcGISRuntime //.Samples.FeatureLayerUrl
                 "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestAnimalLayer/FeatureServer/6");
 
             // Create new FeatureLayer from service uri and
-            FeatureLayer geologyLayer = new FeatureLayer(serviceUri);
+            //FeatureLayer geologyLayer = new FeatureLayer(serviceUri);
 
             // Add created layer to the map
-            myMap.OperationalLayers.Add(geologyLayer);
+            //myMap.OperationalLayers.Add(geologyLayer);
 
             // Assign the map to the MapView
-            _myMapView.Map = myMap;
+            //_myMapView.Map = myMap;
+             MapViewModel();
+        }
+        public void MapViewModel()
+        {
+
+            _ = displayWebMap();
+
         }
 
         private void CreateLayout()
@@ -75,6 +86,21 @@ namespace ArcGISRuntime //.Samples.FeatureLayerUrl
 
             // Show the layout in the app
             SetContentView(layout);
+        }
+        private async Task displayWebMap()
+        {
+            // Create a portal. If a URI is not specified, www.arcgis.com is used by default.
+            ArcGISPortal portal = await ArcGISPortal.CreateAsync();
+
+            // Get the portal item for a web map using its unique item id.
+            //PortalItem mapItem = await PortalItem.CreateAsync(portal, "41281c51f9de45edaf1c8ed44bb10e30");
+            PortalItem mapItem = await PortalItem.CreateAsync(portal, "4974ce8cecec453296d20e81f95c2db4");
+            // Create the map from the item.
+            Map map = new Map(mapItem);
+
+            // To display the map, set the MapViewModel.Map property, which is bound to the map view.
+            this.myMap = map;
+            _myMapView.Map = myMap;
         }
     }
 }

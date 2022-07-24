@@ -87,7 +87,7 @@ namespace ArcGISRuntime
         }
         private void navToMap()
         {
-            var mapActivity = new Intent(this, typeof(FeatureLayerUrl));
+            var mapActivity = new Intent(this, typeof(ShowPopup));
             StartActivity(mapActivity);
         }
 

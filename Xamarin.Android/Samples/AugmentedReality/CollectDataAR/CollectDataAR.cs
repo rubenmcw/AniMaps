@@ -44,6 +44,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using Android.Text;
 
 namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
 {
@@ -77,6 +78,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
 
         // Create a new copmletion source for the prompt.
         private TaskCompletionSource<int> _healthCompletionSource;
+        private TaskCompletionSource<string> nameCompletionSource;
 
         // Feature table for collected data about trees.
         //private ServiceFeatureTable _featureTable = new ServiceFeatureTable(new Uri("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/AR_Tree_Survey/FeatureServer/0"));
@@ -350,13 +352,15 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
                 // Prompt the user for the health value of the tree.
                 int healthValue = await GetTreeHealthValue();
 
+                string animalName = await GetAnimalName();
+
                 // Get the camera image for the frame.
                 Image capturedImage = _arView.ArSceneView.ArFrame.AcquireCameraImage();
 
                 if (capturedImage != null)
                 {
                     // Create a new ArcGIS feature and add it to the feature service.
-                    await doFeature(capturedImage, healthValue);
+                    await doFeature(capturedImage, healthValue, animalName);
                 }
                 else
                 {
@@ -375,6 +379,25 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
                 _arView.GeoViewTapped += arViewTapped;
             }
         }
+        private string textString;
+        private async Task<string> GetAnimalName()
+        { 
+            EditText et = new EditText(this);
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.SetTitle("Enter animal species: ");
+            ad.SetView(et);
+            ad.SetPositiveButton("OK", (sender, e) => { nameCompletionSource.TrySetResult(et.Text); });
+       
+            ad.Show();
+
+            // Get the selected terminal.
+            nameCompletionSource = new TaskCompletionSource<string>();
+            string selectedIndex = await nameCompletionSource.Task;
+            return selectedIndex;
+
+        }
+       
+
 
         private async Task<int> GetTreeHealthValue()
         {
@@ -417,7 +440,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             _healthCompletionSource.TrySetCanceled();
         }
 
-        private async Task doFeature(Image capturedImage, int healthValue)
+        private async Task doFeature(Image capturedImage, int healthValue, string animalName)
        // private async Task doFeature(int healthValue)
         {
             _helpLabel.Text = "Adding feature...";
@@ -442,7 +465,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
 
                 // Set feature attributes.
                 feature.SetAttributeValue("CollectionDate", sdate);
-                feature.SetAttributeValue("AnimalSpecies", "dinosaur");
+                feature.SetAttributeValue("AnimalSpecies", animalName);
                 //feature.SetAttributeValue("AnimalDescription", "big bad worlf");
 
                 feature.SetAttributeValue("Threat", healthValue.ToString()) ;
@@ -465,11 +488,13 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
                 //    |
                 //    V
 
-                string animalName = "animalName";
+                animalName.Replace(" ", "_");
+                Log.Warn("helo: ", animalName);
+                string fileName = animalName + ".jpg";
 
                 // Add the attachment.
                 // The contentType string is the MIME type for JPEG files, image/jpeg.
-                await feature.AddAttachmentAsync("dinosaur.jpg", "image/jpeg", attachmentData);
+                await feature.AddAttachmentAsync(fileName, "image/jpeg", attachmentData);
 
 
 

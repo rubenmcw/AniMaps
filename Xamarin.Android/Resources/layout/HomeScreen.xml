@@ -6,22 +6,36 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:minWidth="25px"
-	android:minHeight="25px"
+	android:minHeight="200px"
     >
 	<ImageView
 		android:src="@drawable/animaps_full"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="167dp"
 		android:id="@+id/imageView1" />
+
 	<Button
-		android:text="View AniMap"
 		android:layout_width="match_parent"
-		android:layout_height="101.0dp"
-		android:id="@+id/viewAniMap" />
+		android:layout_height="wrap_content"
+		android:background="@drawable/map_icon"
+		android:textColor="#000000"
+		android:id="@+id/viewAniMap"
+		android:paddingTop="32sp"
+		android:drawablePadding="15sp"
+		android:text="View Animap"
+		android:layout_margin="10dp"
+		android:textSize="35sp"/>
 	<Button
-		android:text="CAPTURE ANIMAL"
 		android:layout_width="match_parent"
-		android:layout_height="101.0dp"
-		android:id="@+id/takePicture" />
+		android:layout_height="167.0dp"
+		android:background="@drawable/bear_pic"
+		android:textColor="#000000"
+		android:id="@+id/takePicture"
+		android:paddingTop="32sp"
+		android:drawablePadding="15sp"
+		android:text="Capture Animal"
+		android:layout_margin="10dp"
+		android:textSize="35sp"/>
+
 </LinearLayout>
 

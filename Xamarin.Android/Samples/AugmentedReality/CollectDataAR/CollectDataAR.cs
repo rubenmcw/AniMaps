@@ -57,14 +57,19 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
         tags: new[] { "attachment", "augmented reality", "capture", "collection", "collector", "data", "field", "field worker", "full-scale", "mixed reality", "survey", "world-scale" })]
     public class CollectDataAR : Activity, IDialogInterfaceOnCancelListener
     {
+       
+
         // Hold references to UI controls.
         private ARSceneView _arView;
+        private string CHANNEL_ID;
         private TextView _helpLabel;
         private Button _calibrateButton;
         private Button _addButton;
         private Button _roamingButton;
         private Button _localButton;
         private View _calibrationView;
+        private string channel_name;
+        private string channel_description;
         private JoystickSeekBar _headingSlider;
         private JoystickSeekBar _altitudeSlider;
 
@@ -156,6 +161,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            CreateNotificationChannel();
             base.OnCreate(savedInstanceState);
 
             Title = "Collect data in AR";
@@ -197,6 +203,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             //_headingSlider.DeltaProgressChanged += HeadingSlider_DeltaProgressChanged;
             //_altitudeSlider.DeltaProgressChanged += AltitudeSlider_DeltaProgressChanged;
         }
+       
 
         private void AltitudeSlider_DeltaProgressChanged(object sender, DeltaChangedEventArgs e)
         {
@@ -220,6 +227,46 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
 
             // Use the new camera as the origin camera.
             _arView.OriginCamera = newCamera;
+        }
+        public void callNotify()
+        {
+            // Instantiate the builder and set notification elements:
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .SetContentTitle("Dangerous Animal Alert!")
+                .SetContentText("A dangerous animal has been spotted in your area!")
+                .SetSmallIcon(Resource.Drawable.animaps_logo);
+
+            // Build the notification:
+            Notification notification = builder.Build();
+
+            // Get the notification manager:
+            NotificationManager notificationManager =
+                GetSystemService(Context.NotificationService) as NotificationManager;
+
+            // Publish the notification:
+            const int notificationId = 0;
+            notificationManager.Notify(notificationId, notification);
+        }
+        void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                // Notification channels are new in API 26 (and not a part of the
+                // support library). There is no need to create a notification
+                // channel on older versions of Android.
+                return;
+            }
+            CHANNEL_ID = "4";
+            //var channelName = Resources.GetString(Resource.String.channel_name);
+            //var channelDescription = GetString(Resource.String.channel_description);
+            var channel = new NotificationChannel(CHANNEL_ID, "Dangerous Animal Alert", NotificationImportance.Default)
+            {
+                Description = "A dangerous animal has been spotted in your area!"
+                //Description = channelDescription
+            };
+
+            var notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
         }
 
         private async void RealScaleValueChanged(bool roaming)
@@ -418,11 +465,13 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             {
                 case 0: // is a threat.
                     //string tag = "myapp";
-                    Log.Warn(tag, "2");
+                    //callNotify();
+                    //Log.Warn(tag, "2");
                     return 2;
 
                 case 1: // is not a threat.
-                    Log.Warn(tag, "1");
+                    //callNotify();
+                    //Log.Warn(tag, "1");
                     return 1;
 
                 default:
@@ -489,14 +538,17 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
                 //    V
 
                 animalName.Replace(" ", "_");
-                Log.Warn("helo: ", animalName);
+                //Log.Warn("helo: ", animalName);
                 string fileName = animalName + ".jpg";
 
                 // Add the attachment.
                 // The contentType string is the MIME type for JPEG files, image/jpeg.
                 await feature.AddAttachmentAsync(fileName, "image/jpeg", attachmentData);
 
-
+                if(healthValue == 2)
+                {
+                    callNotify();
+                }
 
                 // Add the newly created feature to the feature table.
                 await _featureTable.AddFeatureAsync(feature);
@@ -504,6 +556,10 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
 
                 // Apply the edits to the service feature table.
                 await _featureTable.ApplyEditsAsync();
+
+                Toast.MakeText(this, "Added Animal successfully!", ToastLength.Long).Show();
+
+                //Toast.MakeText(getContext(), "This is my Toast message!",Toast.LENGTH_LONG).show();
 
                 // Reset the user interface.
                 _helpLabel.Text = "Tap to create a feature";

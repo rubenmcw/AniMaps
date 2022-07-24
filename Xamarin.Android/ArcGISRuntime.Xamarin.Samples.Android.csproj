@@ -78,22 +78,14 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Screenshots -->
-    <None Include="Samples\AugmentedReality\DisplayScenesInTabletopAR\DisplayScenesInTabletopAR.jpg" />
     <None Include="Samples\AugmentedReality\CollectDataAR\CollectDataAR.jpg" />
     <None Include="Resources\AboutResources.txt" />
-    <None Include="Samples\FeatureLayerUrl\readme.md" />
-    <None Include="Samples\FeatureLayerUrl\FeatureLayerUrl.jpg" />
-    <None Include="Samples\FeatureLayerUrl\readme.metadata.json" />
-    <None Include="Samples\ShowPopup\ShowPopup.jpg" />
-    <None Include="Samples\ShowPopup\readme.md" />
-    <None Include="Samples\ShowPopup\readme.metadata.json" />
   </ItemGroup>
   <ItemGroup>
     <!-- Sample Code -->
     <Compile Include="Helpers\ArcGISLoginPrompt.cs" />
     <Compile Include="Samples\AugmentedReality\CollectDataAR\CollectDataAR.cs" />
     <Compile Include="Samples\AugmentedReality\CollectDataAR\MSLAdjustedARLocationDataSource.cs" />
-    <Compile Include="Samples\AugmentedReality\DisplayScenesInTabletopAR\DisplayScenesInTabletopAR.cs" />
     <Compile Include="Controls\JoystickSeekBar.cs" />
     <Compile Include="Models\SampleInfo.cs" />
     <Compile Include="Models\ScreenshotSettings.cs" />
@@ -107,7 +99,6 @@
     <Compile Include="Attributes\OfflineDataAttribute.cs" />
     <Compile Include="Attributes\SampleAttribute.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
-    <Compile Include="Samples\FeatureLayerUrl\FeatureLayerUrl.cs" />
     <Compile Include="CategoriesAdapter.cs" />
     <Compile Include="Samples\ShowPopup\ShowPopup.cs" />
     <Compile Include="Samples\Samples\AugmentedReality\FeatureLayerQuery.cs" />

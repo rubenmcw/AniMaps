@@ -110,6 +110,7 @@
     <Compile Include="Samples\FeatureLayerUrl\FeatureLayerUrl.cs" />
     <Compile Include="CategoriesAdapter.cs" />
     <Compile Include="Samples\ShowPopup\ShowPopup.cs" />
+    <Compile Include="Samples\Samples\AugmentedReality\FeatureLayerQuery.cs" />
   </ItemGroup>
   <!-- Sample Manager Code -->
   <ItemGroup>
@@ -219,6 +220,7 @@
     <Folder Include="Models\" />
     <Folder Include="Managers\" />
     <Folder Include="Attributes\" />
+    <Folder Include="Samples\Samples\AugmentedReality\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png">
@@ -494,6 +496,34 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable-xxxhdpi\animaps_full.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\map_icon.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\map_icon.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-mdpi\map_icon.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xhdpi\map_icon.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xxhdpi\map_icon.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\map_icon.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\bear_pic.jpeg">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

@@ -24,17 +24,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+
 namespace ArcGISRuntime
 {
     [Activity(Label = "AniMaps", MainLauncher = true, Icon = "@drawable/animaps_logo")]
     public class MainActivity : Activity
     {
+        
         private List<SearchableTreeNode> _sampleCategories;
         private List<SearchableTreeNode> _filteredSampleCategories;
         private ExpandableListView _categoriesListView;
 
+        public class NotificationEventArgs : EventArgs
+        {
+            public string Title { get; set; }
+            public string Message { get; set; }
+        }
         protected override void OnCreate(Bundle bundle)
         {
+
             ApiKeyManager.ArcGISDeveloperApiKey = "AAPK7585a902340b429d91f44d904deff5d39sR35U77N41SEL1LucBfpwoZv1YTce1sPkWuUEH-LWxyoB4740OhTytFgFTgmz1V";
             base.OnCreate(bundle);
 
@@ -68,6 +77,8 @@ namespace ArcGISRuntime
                 Button settingsButton = FindViewById<Button>(Resource.Id.settingsButton);
                 Button viewMapButton = FindViewById<Button>(Resource.Id.viewAniMap);
                 Button takePictureButton = FindViewById<Button>(Resource.Id.takePicture);
+                Button viewNewMap = FindViewById<Button>(Resource.Id.navToMap);
+                viewNewMap.Click += (s, e) => navToNew();
                 viewMapButton.Click += (s, e) => navToMap();
                 takePictureButton.Click += (s, e) => navToCam();
                 //settingsButton.Click += (s, e) => PromptForKey();
@@ -79,6 +90,11 @@ namespace ArcGISRuntime
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+        private void navToNew()
+        {
+            var newActivity = new Intent(this, typeof(FeatureLayerQuery));
+            StartActivity(newActivity);
         }
         private void navToCam()
         {
@@ -121,6 +137,7 @@ namespace ArcGISRuntime
                 _categoriesListView.ExpandGroup(index);
             }
         }
+       
 
         private async void CategoriesListViewOnChildClick(object sender, ExpandableListView.ChildClickEventArgs childClickEventArgs)
         {

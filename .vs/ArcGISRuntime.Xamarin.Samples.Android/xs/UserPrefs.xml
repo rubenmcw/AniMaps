@@ -1,36 +1,33 @@
 ﻿<Properties StartupConfiguration="{BF0E3CEE-E88E-44E0-80CE-46EDA6CD4B54}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Xamarin.Android/Samples/AugmentedReality/CollectDataAR/CollectDataAR.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Xamarin.Android/Samples/Samples/AugmentedReality/FeatureLayerQuery.cs">
     <Files>
       <File FileName="Xamarin.Android/Resources/Resource.Designer.cs" Line="9" Column="26" />
-      <File FileName="Xamarin.Android/Samples/AugmentedReality/CollectDataAR/CollectDataAR.cs" Line="269" Column="60" />
-      <File FileName="Xamarin.Android/Resources/layout/ShowPopup.xml" Line="23" Column="14" />
-      <File FileName="Xamarin.Android/Samples/FeatureLayerUrl/FeatureLayerUrl.cs" Line="16" Column="1" />
-      <File FileName="Xamarin.Android/Samples/ShowPopup/ShowPopup.cs" Line="141" Column="67" />
-      <File FileName="Xamarin.Android/Resources/layout/HomeScreen.xml" Line="9" Column="24" />
+      <File FileName="Xamarin.Android/Samples/AugmentedReality/CollectDataAR/CollectDataAR.cs" />
+      <File FileName="Xamarin.Android/Resources/layout/ShowPopup.xml" />
+      <File FileName="Xamarin.Android/Samples/ShowPopup/ShowPopup.cs" />
+      <File FileName="Xamarin.Android/Resources/layout/HomeScreen.xml" />
+      <File FileName="Xamarin.Android/MainActivity.cs" Line="97" Column="1" />
+      <File FileName="Xamarin.Android/Samples/Samples/AugmentedReality/FeatureLayerQuery.cs" Line="43" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ArcGISRuntime.Xamarin.Samples.Android" expanded="True">
             <Node name="ArcGISRuntime.Xamarin.Samples.Android" expanded="True">
+              <Node name="Properties" expanded="True" />
               <Node name="Resources" expanded="True">
                 <Node name="layout" expanded="True" />
               </Node>
               <Node name="Samples" expanded="True">
-                <Node name="AugmentedReality" expanded="True">
-                  <Node name="CollectDataAR" expanded="True">
-                    <Node name="CollectDataAR.cs" selected="True" />
+                <Node name="Samples" expanded="True">
+                  <Node name="AugmentedReality" expanded="True">
+                    <Node name="FeatureLayerQuery.cs" selected="True" />
                   </Node>
                 </Node>
-                <Node name="FeatureLayerUrl" expanded="True" />
-                <Node name="ShowPopup" expanded="True" />
               </Node>
             </Node>
           </Node>
         </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

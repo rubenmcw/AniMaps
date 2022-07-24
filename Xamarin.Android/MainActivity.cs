@@ -25,6 +25,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
+
 namespace ArcGISRuntime
 {
     [Activity(Label = "AniMaps", MainLauncher = true, Icon = "@drawable/animaps_logo")]
@@ -76,6 +77,8 @@ namespace ArcGISRuntime
                 Button settingsButton = FindViewById<Button>(Resource.Id.settingsButton);
                 Button viewMapButton = FindViewById<Button>(Resource.Id.viewAniMap);
                 Button takePictureButton = FindViewById<Button>(Resource.Id.takePicture);
+                Button viewNewMap = FindViewById<Button>(Resource.Id.navToMap);
+                viewNewMap.Click += (s, e) => navToNew();
                 viewMapButton.Click += (s, e) => navToMap();
                 takePictureButton.Click += (s, e) => navToCam();
                 //settingsButton.Click += (s, e) => PromptForKey();
@@ -87,6 +90,11 @@ namespace ArcGISRuntime
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+        private void navToNew()
+        {
+            var newActivity = new Intent(this, typeof(FeatureLayerQuery));
+            StartActivity(newActivity);
         }
         private void navToCam()
         {

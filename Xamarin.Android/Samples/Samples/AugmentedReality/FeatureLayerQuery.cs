@@ -10,8 +10,8 @@ using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
-using ArcGISRuntimeXamarin.Samples.ARToolkit.Controls;
-using Esri.ArcGISRuntime.ARToolkit;
+//using ArcGISRuntimeXamarin.Samples.ARToolkit.Controls;
+//using Esri.ArcGISRuntime.ARToolkit;
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
@@ -23,8 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Surface = Esri.ArcGISRuntime.Mapping.Surface;
-using System;
+//using Surface = Esri.ArcGISRuntime.Mapping.Surface;
+//using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -36,21 +36,15 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using Android.Text;
-using Esri.ArcGISRuntime.Portal;
+//using Esri.ArcGISRuntime.Portal;
 
 namespace ArcGISRuntime
 {
-    [Activity(ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
-    [ArcGISRuntime.Samples.Shared.Attributes.Sample(
-        name: "Feature layer query",
-        category: "Data",
-        description: "Find features in a feature table which match an SQL query.",
-        instructions: "Input the name of a U.S. state into the text field. When you tap the button, a query is performed and the matching features are highlighted or an error is returned.",
-        tags: new[] { "query", "search" })]
+    
     public class FeatureLayerQuery : Activity
 	{
         private string _animalObservationsURL = "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/AllAnimalRange_joined_final3/FeatureServer/0";
-        //private string _animalObservationsURL = "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/Collection_Layer_2/FeatureServer/0";
+       
 
 		private MapView _myMapView;
 

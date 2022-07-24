@@ -1,13 +1,4 @@
-﻿// Copyright 2019 Esri.
-//
-// Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-// language governing permissions and limitations under the License.
-
-using Android;
+﻿using Android;
 using Android.App;
 using Android.Util;
 using Android.Content;
@@ -19,7 +10,7 @@ using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
-using ArcGISRuntimeXamarin.Samples.ARToolkit.Controls;
+//using ArcGISRuntimeXamarin.Samples.ARToolkit.Controls;
 using Esri.ArcGISRuntime.ARToolkit;
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.Geometry;
@@ -33,45 +24,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Surface = Esri.ArcGISRuntime.Mapping.Surface;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-//using System.Drawing;
-using System.Linq;
-using System.Text;
-//using System.Windows.Forms;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using Android.Text;
 
-namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
+namespace ArcGISRuntime 
 {
-    [Activity(ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
-    [ArcGISRuntime.Samples.Shared.Attributes.Sample(
-        name: "Collect data in AR",
-        category: "Augmented reality",
-        description: "Tap on real-world objects to collect data.",
-        instructions: "Before you start, go through the on-screen calibration process to ensure accurate positioning of recorded features.",
-        tags: new[] { "attachment", "augmented reality", "capture", "collection", "collector", "data", "field", "field worker", "full-scale", "mixed reality", "survey", "world-scale" })]
+   
     public class CollectDataAR : Activity, IDialogInterfaceOnCancelListener
     {
        
-
         // Hold references to UI controls.
         private ARSceneView _arView;
         private string CHANNEL_ID;
         private TextView _helpLabel;
-        private Button _calibrateButton;
         private Button _addButton;
-        private Button _roamingButton;
-        private Button _localButton;
         private View _calibrationView;
-        private string channel_name;
-        private string channel_description;
-        private JoystickSeekBar _headingSlider;
-        private JoystickSeekBar _altitudeSlider;
+
 
         // Scene content.
         private ArcGISTiledElevationSource _elevationSource;
@@ -85,8 +51,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
         private TaskCompletionSource<int> _healthCompletionSource;
         private TaskCompletionSource<string> nameCompletionSource;
 
-        // Feature table for collected data about trees.
-        //private ServiceFeatureTable _featureTable = new ServiceFeatureTable(new Uri("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/AR_Tree_Survey/FeatureServer/0"));
+      
         private ServiceFeatureTable _featureTable = new ServiceFeatureTable(new Uri("https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/ArcGIS/rest/services/Collection_Layer_2/FeatureServer/0"));
 
         // Graphics for tapped points in the scene.
@@ -184,14 +149,14 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             //_calibrateButton = FindViewById<Button>(ArcGISRuntime.Resource.Id.calibrateButton);
             _addButton = FindViewById<Button>(ArcGISRuntime.Resource.Id.addTreeButton);
             //_roamingButton = FindViewById<Button>(ArcGISRuntime.Resource.Id.roamingButton);
-            _localButton = FindViewById<Button>(ArcGISRuntime.Resource.Id.localButton);
+            //_localButton = FindViewById<Button>(ArcGISRuntime.Resource.Id.localButton);
             //_calibrationView = FindViewById(ArcGISRuntime.Resource.Id.calibrationView);
             //_headingSlider = FindViewById<JoystickSeekBar>(ArcGISRuntime.Resource.Id.headingJoystick);
             //_altitudeSlider = FindViewById<JoystickSeekBar>(ArcGISRuntime.Resource.Id.altitudeJoystick);
 
             // Disable plane rendering and visualization.
-            _arView.ArSceneView.PlaneRenderer.Enabled = false;
-            _arView.ArSceneView.PlaneRenderer.Visible = false;
+            //_arView.ArSceneView.PlaneRenderer.Enabled = false;
+            //_arView.ArSceneView.PlaneRenderer.Visible = false;
 
             // Configure button click events.
             _addButton.Click += AddButtonPressed;
@@ -204,30 +169,6 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             //_altitudeSlider.DeltaProgressChanged += AltitudeSlider_DeltaProgressChanged;
         }
        
-
-        private void AltitudeSlider_DeltaProgressChanged(object sender, DeltaChangedEventArgs e)
-        {
-            // Add the new value to the existing altitude offset.
-            _altitudeOffset += e.DeltaProgress;
-
-            // Update the altitude offset on the custom location data source.
-            _locationDataSource.AltitudeOffset = _altitudeOffset;
-        }
-
-        private void HeadingSlider_DeltaProgressChanged(object sender, DeltaChangedEventArgs e)
-        {
-            // Get the old camera.
-            Camera camera = _arView.OriginCamera;
-
-            // Calculate the new heading by applying the offset to the old camera's heading.
-            double heading = camera.Heading + e.DeltaProgress;
-
-            // Create a new camera by rotating the old camera to the new heading.
-            Camera newCamera = camera.RotateTo(heading, camera.Pitch, camera.Roll);
-
-            // Use the new camera as the origin camera.
-            _arView.OriginCamera = newCamera;
-        }
         public void callNotify()
         {
             // Instantiate the builder and set notification elements:
@@ -257,8 +198,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
                 return;
             }
             CHANNEL_ID = "4";
-            //var channelName = Resources.GetString(Resource.String.channel_name);
-            //var channelDescription = GetString(Resource.String.channel_description);
+          
             var channel = new NotificationChannel(CHANNEL_ID, "Dangerous Animal Alert", NotificationImportance.Default)
             {
                 Description = "A dangerous animal has been spotted in your area!"
@@ -269,47 +209,10 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             notificationManager.CreateNotificationChannel(channel);
         }
 
-        private async void RealScaleValueChanged(bool roaming)
-        {
-            // Prevent this from being called concurrently
-            if (_changingScale)
-            {
-                return;
-            }
-            _changingScale = true;
-
-            // Disable the associated UI controls while switching.
-            //_roamingButton.Enabled = false;
-            //_localButton.Enabled = false;
-
-            // Check if using roaming for AR location mode.
-            if (roaming)
-            {
-                await _arView.StopTrackingAsync();
-
-                // Start AR tracking using a continuous GPS signal.
-                await _arView.StartTrackingAsync(ARLocationTrackingMode.Continuous);
-                //_altitudeSlider.Enabled = true;
-                //_localButton.Enabled = true;
-            }
-            else
-            {
-                await _arView.StopTrackingAsync();
-
-                // Start AR tracking without using a GPS signal.
-                await _arView.StartTrackingAsync(ARLocationTrackingMode.Ignore);
-                //_altitudeSlider.Enabled = false;
-                //_roamingButton.Enabled = true;
-            }
-            _changingScale = false;
-        }
+    
 
         private void Initialize()
         {
-            //Toast.MakeText(this,
-                //"Calibrate your location before collecting data!",
-               // ToastLength.Long).Show();
-
             // Create the custom location data source and configure the AR scene view to use it.
             _locationDataSource = new MSLAdjustedARLocationDataSource(this);
             _locationDataSource.AltitudeMode = MSLAdjustedARLocationDataSource.AltitudeAdjustmentMode.NmeaParsedMsl;
@@ -426,7 +329,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
                 _arView.GeoViewTapped += arViewTapped;
             }
         }
-        private string textString;
+       
         private async Task<string> GetAnimalName()
         { 
             EditText et = new EditText(this);
@@ -502,32 +405,19 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
                 ArcGISFeature feature = (ArcGISFeature)_featureTable.CreateFeature();
                 DateTime date = DateTime.Now; // will give the date time for today
                 string sdate = date.ToString();
-
-                // Create attributes for the feature using the user selected health value.
-                //IEnumerable<KeyValuePair<string, object>> featureAttributes = new Dictionary<string, object>() { { "AnimalName", null }, { "AnimalDescription", null }, { "CollectionDate", null }, { "Threat", null } };
-                //IEnumerable<KeyValuePair<string, object>> featureAttributes = new Dictionary<string, object>() { { "AnimalName", "dinosaur" }, { "AnimalDescription", "Big bad animal" }, { "CollectionDate", "123" },  { "Threat", (short)healthValue } };
-                int i = 1;
-                //MapPoint tappedPoint = (MapPoint)GeometryEngine.NormalizeCentralMeridian(e.Location);
-                //featurePoint.Z = 0.00;
-                //MapPoint test = new MapPoint(featurePoint.X, featurePoint.Y, 0.00, SpatialReferences.Wgs84);
+ 
+             
+             
                 feature.Geometry = featurePoint;
 
                 // Set feature attributes.
                 feature.SetAttributeValue("CollectionDate", sdate);
                 feature.SetAttributeValue("AnimalSpecies", animalName);
-                //feature.SetAttributeValue("AnimalDescription", "big bad worlf");
+               
 
                 feature.SetAttributeValue("Threat", healthValue.ToString()) ;
 
-                // Ensure that the feature table is loaded.
-                //if (_featureTable.LoadStatus != Esri.ArcGISRuntime.LoadStatus.Loaded)
-                //{
-                 //   await _featureTable.LoadAsync();
-                //}
-
-                // Create the new feature
-                //ArcGISFeature newFeature = _featureTable.CreateFeature(featureAttributes, featurePoint) as ArcGISFeature;
-
+                
                 // Convert the Image from ARCore into a JPEG byte array.
                 byte[] attachmentData = await ConvertImageToJPEG(capturedImage);
 

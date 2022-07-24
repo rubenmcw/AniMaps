@@ -83,10 +83,8 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Sample Code -->
-    <Compile Include="Helpers\ArcGISLoginPrompt.cs" />
     <Compile Include="Samples\AugmentedReality\CollectDataAR\CollectDataAR.cs" />
     <Compile Include="Samples\AugmentedReality\CollectDataAR\MSLAdjustedARLocationDataSource.cs" />
-    <Compile Include="Controls\JoystickSeekBar.cs" />
     <Compile Include="Models\SampleInfo.cs" />
     <Compile Include="Models\ScreenshotSettings.cs" />
     <Compile Include="Models\SearchableTreeNode.cs" />
@@ -99,9 +97,10 @@
     <Compile Include="Attributes\OfflineDataAttribute.cs" />
     <Compile Include="Attributes\SampleAttribute.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
-    <Compile Include="CategoriesAdapter.cs" />
     <Compile Include="Samples\ShowPopup\ShowPopup.cs" />
     <Compile Include="Samples\Samples\AugmentedReality\FeatureLayerQuery.cs" />
+    <Compile Include="Helpers\ArcGISLoginPrompt.cs" />
+    <Compile Include="Controls\JoystickSeekBar.cs" />
   </ItemGroup>
   <!-- Sample Manager Code -->
   <ItemGroup>

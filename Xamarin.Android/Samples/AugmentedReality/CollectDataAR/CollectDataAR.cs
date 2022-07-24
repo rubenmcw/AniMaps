@@ -9,6 +9,7 @@
 
 using Android;
 using Android.App;
+using Android.Util;
 using Android.Content;
 using Android.Content.PM;
 using Android.Media;
@@ -32,6 +33,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Surface = Esri.ArcGISRuntime.Mapping.Surface;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+//using System.Drawing;
+using System.Linq;
+using System.Text;
+//using System.Windows.Forms;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
 
 namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
 {
@@ -67,8 +79,8 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
         private TaskCompletionSource<int> _healthCompletionSource;
 
         // Feature table for collected data about trees.
-        private ServiceFeatureTable _featureTable = new ServiceFeatureTable(new Uri("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/AR_Tree_Survey/FeatureServer/0"));
-        //private ServiceFeatureTable _featureTable = new ServiceFeatureTable(new Uri("https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/TestAnimalLayer/FeatureServer/6"));
+        //private ServiceFeatureTable _featureTable = new ServiceFeatureTable(new Uri("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/rest/services/AR_Tree_Survey/FeatureServer/0"));
+        private ServiceFeatureTable _featureTable = new ServiceFeatureTable(new Uri("https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/ArcGIS/rest/services/Collection_Layer_2/FeatureServer/0"));
 
         // Graphics for tapped points in the scene.
         private GraphicsOverlay _graphicsOverlay;
@@ -327,7 +339,7 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             // Check if the user has already tapped a point.
             if (!_graphicsOverlay.Graphics.Any())
             {
-                ShowMessage("Didn't find anything, try again.", "Error");
+                ShowMessage("Didn't find any animals, try again.", "Error");
                 return;
             }
             try
@@ -344,12 +356,13 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
                 if (capturedImage != null)
                 {
                     // Create a new ArcGIS feature and add it to the feature service.
-                    await CreateFeature(capturedImage, healthValue);
+                    await doFeature(capturedImage, healthValue);
                 }
                 else
                 {
                     ShowMessage("Didn't get image for tap.", "Error");
                 }
+                //await doFeature(healthValue);
             }
             // This exception is thrown when the user cancels out of the prompt.
             catch (TaskCanceledException)
@@ -365,12 +378,13 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
 
         private async Task<int> GetTreeHealthValue()
         {
-            // Create UI for tree health selection.
+            // Create UI for animal threat selection.
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.SetTitle("How healthy is this tree?");
-            builder.SetItems(new string[] { "Dead", "Distressed", "Healthy" }, Choose_Click);
+            builder.SetTitle("Is this animal a threat to public safety?");
+            builder.SetItems(new string[] { "Yes", "No"}, Choose_Click);
             builder.SetOnCancelListener(this);
             builder.Show();
+            string tag = "myapp";
 
             // Get the selected terminal.
             _healthCompletionSource = new TaskCompletionSource<int>();
@@ -379,14 +393,14 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             // Return a tree health value based on the users selection.
             switch (selectedIndex)
             {
-                case 0: // Dead tree.
-                    return 0;
+                case 0: // is a threat.
+                    //string tag = "myapp";
+                    Log.Warn(tag, "2");
+                    return 2;
 
-                case 1: // Distressed tree.
-                    return 5;
-
-                case 2: // Healthy tree.
-                    return 10;
+                case 1: // is not a threat.
+                    Log.Warn(tag, "1");
+                    return 1;
 
                 default:
                     return 0;
@@ -403,36 +417,65 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             _healthCompletionSource.TrySetCanceled();
         }
 
-        private async Task CreateFeature(Image capturedImage, int healthValue)
+        private async Task doFeature(Image capturedImage, int healthValue)
+       // private async Task doFeature(int healthValue)
         {
             _helpLabel.Text = "Adding feature...";
 
             try
             {
+                
                 // Get the geometry of the feature.
                 MapPoint featurePoint = _graphicsOverlay.Graphics.First().Geometry as MapPoint;
+                ArcGISFeature feature = (ArcGISFeature)_featureTable.CreateFeature();
+                DateTime date = DateTime.Now; // will give the date time for today
+                string sdate = date.ToString();
 
                 // Create attributes for the feature using the user selected health value.
-                IEnumerable<KeyValuePair<string, object>> featureAttributes = new Dictionary<string, object>() { { "Health", (short)healthValue }, { "Height", 3.2 }, { "Diameter", 1.2 } };
+                //IEnumerable<KeyValuePair<string, object>> featureAttributes = new Dictionary<string, object>() { { "AnimalName", null }, { "AnimalDescription", null }, { "CollectionDate", null }, { "Threat", null } };
+                //IEnumerable<KeyValuePair<string, object>> featureAttributes = new Dictionary<string, object>() { { "AnimalName", "dinosaur" }, { "AnimalDescription", "Big bad animal" }, { "CollectionDate", "123" },  { "Threat", (short)healthValue } };
+                int i = 1;
+                //MapPoint tappedPoint = (MapPoint)GeometryEngine.NormalizeCentralMeridian(e.Location);
+                //featurePoint.Z = 0.00;
+                //MapPoint test = new MapPoint(featurePoint.X, featurePoint.Y, 0.00, SpatialReferences.Wgs84);
+                feature.Geometry = featurePoint;
+
+                // Set feature attributes.
+                feature.SetAttributeValue("CollectionDate", sdate);
+                feature.SetAttributeValue("AnimalSpecies", "dinosaur");
+                //feature.SetAttributeValue("AnimalDescription", "big bad worlf");
+
+                feature.SetAttributeValue("Threat", healthValue.ToString()) ;
 
                 // Ensure that the feature table is loaded.
-                if (_featureTable.LoadStatus != Esri.ArcGISRuntime.LoadStatus.Loaded)
-                {
-                    await _featureTable.LoadAsync();
-                }
+                //if (_featureTable.LoadStatus != Esri.ArcGISRuntime.LoadStatus.Loaded)
+                //{
+                 //   await _featureTable.LoadAsync();
+                //}
 
                 // Create the new feature
-                ArcGISFeature newFeature = _featureTable.CreateFeature(featureAttributes, featurePoint) as ArcGISFeature;
+                //ArcGISFeature newFeature = _featureTable.CreateFeature(featureAttributes, featurePoint) as ArcGISFeature;
 
                 // Convert the Image from ARCore into a JPEG byte array.
                 byte[] attachmentData = await ConvertImageToJPEG(capturedImage);
 
+                //send image to AI
+
+                //return name of animal
+                //    |
+                //    V
+
+                string animalName = "animalName";
+
                 // Add the attachment.
                 // The contentType string is the MIME type for JPEG files, image/jpeg.
-                await newFeature.AddAttachmentAsync("tree.jpg", "image/jpeg", attachmentData);
+                await feature.AddAttachmentAsync("dinosaur.jpg", "image/jpeg", attachmentData);
+
+
 
                 // Add the newly created feature to the feature table.
-                await _featureTable.AddFeatureAsync(newFeature);
+                await _featureTable.AddFeatureAsync(feature);
+                //feature.Refresh();
 
                 // Apply the edits to the service feature table.
                 await _featureTable.ApplyEditsAsync();
@@ -445,7 +488,8 @@ namespace ArcGISRuntime //Xamarin.Samples.CollectDataAR
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                ShowMessage("Could not create feature", "Error");
+                ShowMessage("Could not add animal to feature", "Error");
+                _helpLabel.Text = "Animal not added";
             }
         }
 

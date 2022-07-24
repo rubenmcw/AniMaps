@@ -36,7 +36,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using Android.Text;
-
+using Esri.ArcGISRuntime.Portal;
 
 namespace ArcGISRuntime
 {
@@ -49,9 +49,12 @@ namespace ArcGISRuntime
         tags: new[] { "query", "search" })]
     public class FeatureLayerQuery : Activity
 	{
-		private string _animalObservationsURL = "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/Collection_Layer_2/FeatureServer";
+        private string _animalObservationsURL = "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/AllAnimalRange_joined_final3/FeatureServer/0";
+        //private string _animalObservationsURL = "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/Collection_Layer_2/FeatureServer/0";
 
 		private MapView _myMapView;
+
+        private Map myMap;
 
 		private EditText _queryTextBox;
 
@@ -73,7 +76,7 @@ namespace ArcGISRuntime
 		private void Initialize() {
 
             // Create new Map with basemap
-            Map myMap = new Map(BasemapStyle.ArcGISTopographic);
+             myMap = new Map(BasemapStyle.ArcGISTopographic);
 
             // Create and set initial map location
             MapPoint initialLocation = new MapPoint(
@@ -107,9 +110,11 @@ namespace ArcGISRuntime
 
             // Assign the map to the MapView
             _myMapView.Map = myMap;
+            
         }
+       
 
-		private async void OnQueryClicked(object sender, EventArgs e) {
+        private async void OnQueryClicked(object sender, EventArgs e) {
 
             // Remove any previous feature selections that may have been made
             _featureLayer.ClearSelection();

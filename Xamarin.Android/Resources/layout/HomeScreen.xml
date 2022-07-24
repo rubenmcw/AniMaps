@@ -37,11 +37,17 @@
 		android:layout_margin="10dp"
 		android:textSize="35sp"/>
 	<Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/map_icon"
+		android:textColor="#000000"
 		android:id="@+id/navToMap"
-		android:text="To new map"
-		/>
+		android:paddingTop="32sp"
+		android:drawablePadding="15sp"
+		android:text="Feature Query Map"
+		android:layout_margin="10dp"
+		android:textSize="35sp"/>
+	
 
 </LinearLayout>
 
